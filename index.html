@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lightspeed Studios</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -859,7 +860,30 @@
 
       <!-- Gate -->
       <div class="live-gate" id="liveGate">
-        <p>Already signed up? Enter your email and the code from your inbox below.</p>
+        <!-- Google Sign-In -->
+        <div id="g_id_onload"
+          data-client_id="997874091474-q0ksgh92665sa4ia8hvggf6rp9e0v7uk.apps.googleusercontent.com"
+          data-callback="handleGoogleSignIn"
+          data-auto_prompt="false">
+        </div>
+        <div style="display:flex;justify-content:center;margin-bottom:1.2rem;">
+          <div class="g_id_signin"
+            data-type="standard"
+            data-shape="pill"
+            data-theme="filled_black"
+            data-text="sign_in_with"
+            data-size="large">
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.2rem;">
+          <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
+          <span style="font-size:0.75rem;color:rgba(255,255,255,0.3);">or use your access code</span>
+          <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
+        </div>
+
+        <!-- Code form -->
         <div class="form-field">
           <label for="lv-email">Your email</label>
           <input type="email" id="lv-email" placeholder="you@example.com" required>
@@ -1026,6 +1050,19 @@
       msg.style.display = 'block';
       btn.disabled = false;
       btn.textContent = 'Get my access code';
+    }
+
+    // ── Google Sign-In handler (gate) ─────────────────────
+    function handleGoogleSignIn(response) {
+      try {
+        const b64 = response.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+        const padded = b64.padEnd(b64.length + (4 - b64.length % 4) % 4, '=');
+        const payload = JSON.parse(atob(padded));
+        unlockProductions(payload.given_name || payload.name || payload.email);
+      } catch(e) {
+        document.getElementById('gateError').textContent = 'Google sign-in failed. Try the code instead.';
+        document.getElementById('gateError').style.display = 'block';
+      }
     }
 
     // ── Live Productions verify handler ───────────────────
