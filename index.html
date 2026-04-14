@@ -2,33 +2,316 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hello</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lightspeed Studios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    body {
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:  #7c3aed;
+      --magenta: #d946ef;
+      --cyan:    #22d3ee;
+      --blue:    #3b82f6;
+      --bg:      #030712;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* ── Starfield canvas ── */
+    #stars {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    /* ── Nebula blobs ── */
+    .nebula {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 1;
+      animation: drift 20s ease-in-out infinite alternate;
+    }
+    .nebula-1 { width: 600px; height: 600px; background: var(--purple); top: -150px; left: -150px; animation-delay: 0s; }
+    .nebula-2 { width: 500px; height: 500px; background: var(--magenta); bottom: -100px; right: -100px; animation-delay: -6s; }
+    .nebula-3 { width: 400px; height: 400px; background: var(--cyan); top: 40%; left: 55%; animation-delay: -12s; }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, 30px) scale(1.08); }
+    }
+
+    /* ── Main layout ── */
+    main {
+      position: relative;
+      z-index: 10;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       height: 100vh;
-      margin: 0;
-      background: #0f0f0f;
-      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
+      gap: 2rem;
     }
-    button {
-      padding: 20px 48px;
-      font-size: 1.4rem;
+
+    /* ── Badge ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(8px);
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cyan);
+    }
+    .badge-dot {
+      width: 7px; height: 7px;
+      background: var(--cyan);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* ── Wordmark ── */
+    .wordmark {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 8vw, 6.5rem);
+      line-height: 1;
+      letter-spacing: 0.04em;
+      background: linear-gradient(135deg, #fff 0%, var(--cyan) 40%, var(--magenta) 75%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 40px rgba(217,70,239,0.35));
+      animation: shimmer 6s ease-in-out infinite alternate;
+    }
+    @keyframes shimmer {
+      from { filter: drop-shadow(0 0 40px rgba(217,70,239,0.35)); }
+      to   { filter: drop-shadow(0 0 60px rgba(34,211,238,0.45)); }
+    }
+
+    /* ── Tagline ── */
+    .tagline {
+      font-size: clamp(0.95rem, 2.5vw, 1.25rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.08em;
+      max-width: 480px;
+    }
+    .tagline strong {
+      color: rgba(255,255,255,0.85);
+      font-weight: 500;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 80px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--magenta), transparent);
+    }
+
+    /* ── Stats row ── */
+    .stats {
+      display: flex;
+      gap: 3rem;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .stat-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── CTA ── */
+    .cta {
+      display: inline-block;
+      padding: 14px 40px;
+      border-radius: 999px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, var(--purple), var(--magenta));
+      box-shadow: 0 0 30px rgba(217,70,239,0.4);
+      transition: box-shadow 0.3s, transform 0.2s;
+      cursor: default;
+    }
+    .cta:hover {
+      box-shadow: 0 0 50px rgba(217,70,239,0.65);
+      transform: translateY(-2px);
+    }
+
+    /* ── Shooting star ── */
+    .shoot {
+      position: fixed;
+      top: 0; left: 0;
+      width: 2px; height: 2px;
       background: #fff;
-      color: #0f0f0f;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: transform 0.1s, background 0.2s;
+      border-radius: 50%;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0;
     }
-    button:hover { background: #e0e0e0; }
-    button:active { transform: scale(0.96); }
   </style>
 </head>
 <body>
-  <audio id="audio" src="hello.mp3"></audio>
-  <button onclick="document.getElementById('audio').play()">Say Hello</button>
+
+  <canvas id="stars"></canvas>
+  <div class="nebula nebula-1"></div>
+  <div class="nebula nebula-2"></div>
+  <div class="nebula nebula-3"></div>
+
+  <main>
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Two creators · One universe
+    </div>
+
+    <h1 class="wordmark">LIGHTSPEED<br>STUDIOS</h1>
+
+    <p class="tagline">
+      We build things at the <strong>speed of light.</strong><br>
+      Design, code, and everything in between.
+    </p>
+
+    <div class="divider"></div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-num">2</span>
+        <span class="stat-label">Creators</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">Ideas</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">1</span>
+        <span class="stat-label">Mission</span>
+      </div>
+    </div>
+
+    <a class="cta">Launching Soon</a>
+  </main>
+
+  <script>
+    // ── Starfield ──────────────────────────────────────────
+    const canvas = document.getElementById('stars');
+    const ctx    = canvas.getContext('2d');
+    let W, H, stars = [];
+
+    const STAR_COUNT = 280;
+    const COLORS = ['#ffffff', '#c4b5fd', '#67e8f9', '#f9a8d4', '#a5f3fc'];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function initStars() {
+      stars = Array.from({ length: STAR_COUNT }, () => ({
+        x:       Math.random() * W,
+        y:       Math.random() * H,
+        r:       Math.random() * 1.4 + 0.2,
+        color:   COLORS[Math.floor(Math.random() * COLORS.length)],
+        speed:   Math.random() * 0.4 + 0.05,
+        phase:   Math.random() * Math.PI * 2,
+        twinkle: Math.random() * 0.03 + 0.008,
+      }));
+    }
+
+    let t = 0;
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      t += 1;
+      for (const s of stars) {
+        const alpha = 0.4 + 0.6 * Math.abs(Math.sin(s.phase + t * s.twinkle));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = s.color;
+        ctx.globalAlpha = alpha;
+        ctx.fill();
+        // slow drift downward
+        s.y += s.speed * 0.15;
+        if (s.y > H + 2) { s.y = -2; s.x = Math.random() * W; }
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', () => { resize(); initStars(); });
+    resize(); initStars(); draw();
+
+    // ── Shooting stars ─────────────────────────────────────
+    function shootStar() {
+      const el = document.createElement('div');
+      el.className = 'shoot';
+      document.body.appendChild(el);
+
+      const startX = Math.random() * W * 0.7;
+      const startY = Math.random() * H * 0.4;
+      const len    = 120 + Math.random() * 180;
+      const angle  = 30 + Math.random() * 20; // degrees
+      const rad    = (angle * Math.PI) / 180;
+
+      el.style.cssText = `
+        left: ${startX}px; top: ${startY}px;
+        width: ${len}px; height: 1.5px;
+        background: linear-gradient(90deg, rgba(255,255,255,0.9), transparent);
+        transform: rotate(${angle}deg);
+        transform-origin: left center;
+        border-radius: 2px;
+        opacity: 0;
+      `;
+
+      const kf = [
+        { opacity: 0, transform: `rotate(${angle}deg) translateX(0)` },
+        { opacity: 0.9, transform: `rotate(${angle}deg) translateX(${len * 0.3}px)`, offset: 0.15 },
+        { opacity: 0, transform: `rotate(${angle}deg) translateX(${len}px)` },
+      ];
+      const anim = el.animate(kf, { duration: 700 + Math.random() * 400, easing: 'ease-in' });
+      anim.onfinish = () => el.remove();
+
+      setTimeout(shootStar, 2500 + Math.random() * 4000);
+    }
+    setTimeout(shootStar, 1500);
+  </script>
 </body>
 </html>
