@@ -16,7 +16,7 @@
 const SHEET_ID   = '1ZAJCpbvteCcsEKNw7G-4AvhCDVrpZK011A-bAiFNY9w';
 const SHEET_NAME = 'Sheet1';
 
-function doPost(e) {
+function doGet(e) {
   const action = e.parameter.action;
   let result;
 

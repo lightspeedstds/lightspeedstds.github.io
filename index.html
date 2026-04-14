@@ -992,10 +992,7 @@
       msg.style.display = 'none';
 
       try {
-        const res  = await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          body: new URLSearchParams({ action: 'signup', name, email }),
-        });
+        const res  = await fetch(APPS_SCRIPT_URL + '?' + new URLSearchParams({ action: 'signup', name, email }));
         const data = await res.json();
 
         if (data.success) {
@@ -1031,10 +1028,7 @@
       btn.textContent = 'Checking...';
 
       try {
-        const res  = await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          body: new URLSearchParams({ action: 'verify', email, code }),
-        });
+        const res  = await fetch(APPS_SCRIPT_URL + '?' + new URLSearchParams({ action: 'verify', email, code }));
         const data = await res.json();
 
         if (data.valid) {
