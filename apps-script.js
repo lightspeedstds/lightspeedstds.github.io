@@ -28,9 +28,10 @@ function doGet(e) {
     result = { success: false, error: err.message };
   }
 
-  return ContentService
-    .createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
+  const cb  = e.parameter.callback;
+  const out = cb ? cb + '(' + JSON.stringify(result) + ')' : JSON.stringify(result);
+  const mime = cb ? ContentService.MimeType.JAVASCRIPT : ContentService.MimeType.JSON;
+  return ContentService.createTextOutput(out).setMimeType(mime);
 }
 
 // ── Sign Up ───────────────────────────────────────────────────
