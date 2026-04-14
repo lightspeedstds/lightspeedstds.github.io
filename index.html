@@ -1058,7 +1058,14 @@
         const b64 = response.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
         const padded = b64.padEnd(b64.length + (4 - b64.length % 4) % 4, '=');
         const payload = JSON.parse(atob(padded));
-        unlockProductions(payload.given_name || payload.name || payload.email);
+        const name  = payload.given_name || payload.name || payload.email;
+        const email = payload.email;
+
+        // Register them in the sheet + send code — fire and forget
+        jsonp({ action: 'signup', name, email }).catch(() => {});
+
+        // Unlock immediately — Google auth is sufficient
+        unlockProductions(name);
       } catch(e) {
         document.getElementById('gateError').textContent = 'Google sign-in failed. Try the code instead.';
         document.getElementById('gateError').style.display = 'block';
