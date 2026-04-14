@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lightspeed Studios</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,55 +17,63 @@
       --bg:      #030712;
     }
 
-    html, body {
-      width: 100%; height: 100%;
-      overflow: hidden;
+    html { scroll-behavior: smooth; }
+
+    body {
+      width: 100%;
+      overflow-x: hidden;
       background: var(--bg);
       color: #fff;
       font-family: 'Space Grotesk', sans-serif;
     }
 
-    /* ── Starfield canvas ── */
+    /* ── Starfield ── */
     #stars {
       position: fixed;
       inset: 0;
       z-index: 0;
+      pointer-events: none;
     }
 
     /* ── Nebula blobs ── */
     .nebula {
       position: fixed;
       border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.18;
+      filter: blur(130px);
+      opacity: 0.16;
       pointer-events: none;
       z-index: 1;
-      animation: drift 20s ease-in-out infinite alternate;
+      animation: drift 22s ease-in-out infinite alternate;
     }
-    .nebula-1 { width: 600px; height: 600px; background: var(--purple); top: -150px; left: -150px; animation-delay: 0s; }
-    .nebula-2 { width: 500px; height: 500px; background: var(--magenta); bottom: -100px; right: -100px; animation-delay: -6s; }
-    .nebula-3 { width: 400px; height: 400px; background: var(--cyan); top: 40%; left: 55%; animation-delay: -12s; }
+    .nebula-1 { width: 650px; height: 650px; background: var(--purple); top: -180px; left: -180px; animation-delay: 0s; }
+    .nebula-2 { width: 520px; height: 520px; background: var(--magenta); bottom: -120px; right: -120px; animation-delay: -7s; }
+    .nebula-3 { width: 420px; height: 420px; background: var(--cyan); top: 35%; left: 52%; animation-delay: -14s; }
 
     @keyframes drift {
       from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(40px, 30px) scale(1.08); }
+      to   { transform: translate(45px, 35px) scale(1.1); }
     }
 
-    /* ── Main layout ── */
-    main {
+    /* ── Page wrapper ── */
+    .page {
       position: relative;
       z-index: 10;
+    }
+
+    /* ════════════════════════════════
+       HERO
+    ════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
       text-align: center;
-      padding: 2rem;
-      gap: 2rem;
+      padding: 5rem 2rem 4rem;
+      gap: 1.8rem;
     }
 
-    /* ── Badge ── */
     .badge {
       display: inline-flex;
       align-items: center;
@@ -75,7 +83,7 @@
       backdrop-filter: blur(8px);
       padding: 6px 18px;
       border-radius: 999px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--cyan);
@@ -88,61 +96,59 @@
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.4; transform: scale(0.7); }
+      50%       { opacity: 0.35; transform: scale(0.65); }
     }
 
-    /* ── Wordmark ── */
     .wordmark {
       font-family: 'Orbitron', sans-serif;
       font-weight: 900;
-      font-size: clamp(2.4rem, 8vw, 6.5rem);
+      font-size: clamp(2.6rem, 9vw, 7rem);
       line-height: 1;
       letter-spacing: 0.04em;
-      background: linear-gradient(135deg, #fff 0%, var(--cyan) 40%, var(--magenta) 75%, var(--purple) 100%);
+      background: linear-gradient(135deg, #fff 0%, var(--cyan) 38%, var(--magenta) 72%, var(--purple) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 0 40px rgba(217,70,239,0.35));
-      animation: shimmer 6s ease-in-out infinite alternate;
+      animation: glow 6s ease-in-out infinite alternate;
     }
-    @keyframes shimmer {
-      from { filter: drop-shadow(0 0 40px rgba(217,70,239,0.35)); }
-      to   { filter: drop-shadow(0 0 60px rgba(34,211,238,0.45)); }
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 35px rgba(217,70,239,0.3)); }
+      to   { filter: drop-shadow(0 0 65px rgba(34,211,238,0.45)); }
     }
 
-    /* ── Tagline ── */
     .tagline {
-      font-size: clamp(0.95rem, 2.5vw, 1.25rem);
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
       font-weight: 300;
-      color: rgba(255,255,255,0.55);
-      letter-spacing: 0.08em;
-      max-width: 480px;
+      color: rgba(255,255,255,0.52);
+      letter-spacing: 0.06em;
+      max-width: 520px;
+      line-height: 1.7;
     }
     .tagline strong {
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,0.88);
       font-weight: 500;
     }
 
-    /* ── Divider ── */
     .divider {
       width: 80px; height: 1px;
       background: linear-gradient(90deg, transparent, var(--magenta), transparent);
     }
 
-    /* ── Stats row ── */
     .stats {
       display: flex;
-      gap: 3rem;
+      gap: 3.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     .stat {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
     .stat-num {
       font-family: 'Orbitron', sans-serif;
-      font-size: 1.6rem;
+      font-size: 1.75rem;
       font-weight: 700;
       background: linear-gradient(135deg, var(--cyan), var(--magenta));
       -webkit-background-clip: text;
@@ -150,44 +156,251 @@
       background-clip: text;
     }
     .stat-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.32);
     }
 
-    /* ── CTA ── */
-    .cta {
-      display: inline-block;
-      padding: 14px 40px;
+    .scroll-hint {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      animation: bob 2.5s ease-in-out infinite;
+    }
+    .scroll-hint svg { opacity: 0.4; }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+
+    /* ════════════════════════════════
+       SECTION SHELL
+    ════════════════════════════════ */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.45);
+      max-width: 540px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    /* ════════════════════════════════
+       ABOUT
+    ════════════════════════════════ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 680px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .about-card:hover {
+      border-color: rgba(217,70,239,0.3);
+      background: rgba(217,70,239,0.04);
+    }
+    .about-card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .about-card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.6rem;
+      color: rgba(255,255,255,0.9);
+    }
+    .about-card p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.42);
+      line-height: 1.75;
+    }
+
+    /* ════════════════════════════════
+       WHAT WE MAKE
+    ════════════════════════════════ */
+    .craft-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    @media (max-width: 760px) { .craft-grid { grid-template-columns: 1fr; } }
+
+    .craft-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 2rem 1.75rem;
+      transition: border-color 0.3s, transform 0.25s;
+    }
+    .craft-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(34,211,238,0.25);
+    }
+    .craft-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.1rem;
+    }
+    .craft-icon.purple { background: rgba(124,58,237,0.2); }
+    .craft-icon.cyan   { background: rgba(34,211,238,0.15); }
+    .craft-icon.pink   { background: rgba(217,70,239,0.18); }
+
+    .craft-card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.6rem;
+      color: rgba(255,255,255,0.9);
+    }
+    .craft-card p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.75;
+    }
+
+    /* ════════════════════════════════
+       CURRENTLY IN DEVELOPMENT
+    ════════════════════════════════ */
+    .dev-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(217,70,239,0.2);
+      border-radius: 20px;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .dev-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top left, rgba(124,58,237,0.12) 0%, transparent 65%),
+                  radial-gradient(ellipse at bottom right, rgba(217,70,239,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .dev-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(217,70,239,0.1);
+      border: 1px solid rgba(217,70,239,0.3);
       border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 1.75rem;
+    }
+    .dev-status-dot {
+      width: 6px; height: 6px;
+      background: var(--magenta);
+      border-radius: 50%;
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    .dev-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      background: linear-gradient(135deg, #fff 0%, var(--cyan) 50%, var(--magenta) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+    .dev-desc {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.8;
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+    .dev-tags {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .dev-tag {
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+    }
+
+    /* ════════════════════════════════
+       FOOTER
+    ════════════════════════════════ */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-brand {
       font-family: 'Orbitron', sans-serif;
       font-size: 0.8rem;
       font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: #fff;
-      background: linear-gradient(135deg, var(--purple), var(--magenta));
-      box-shadow: 0 0 30px rgba(217,70,239,0.4);
-      transition: box-shadow 0.3s, transform 0.2s;
-      cursor: default;
+      letter-spacing: 0.12em;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .cta:hover {
-      box-shadow: 0 0 50px rgba(217,70,239,0.65);
-      transform: translateY(-2px);
-    }
-
-    /* ── Shooting star ── */
-    .shoot {
-      position: fixed;
-      top: 0; left: 0;
-      width: 2px; height: 2px;
-      background: #fff;
-      border-radius: 50%;
-      z-index: 5;
-      pointer-events: none;
-      opacity: 0;
+    .footer-copy {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.08em;
     }
   </style>
 </head>
@@ -198,38 +411,133 @@
   <div class="nebula nebula-2"></div>
   <div class="nebula nebula-3"></div>
 
-  <main>
-    <div class="badge">
-      <span class="badge-dot"></span>
-      Two creators · One universe
+  <div class="page">
+
+    <!-- ── HERO ── -->
+    <div class="hero">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Three creators · One universe
+      </div>
+
+      <h1 class="wordmark">LIGHTSPEED<br>STUDIOS</h1>
+
+      <p class="tagline">
+        We build things at the <strong>speed of light.</strong><br>
+        Games, experiences, and ideas that didn't exist before.
+      </p>
+
+      <div class="divider"></div>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-num">3</span>
+          <span class="stat-label">Creators</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Ideas</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">1</span>
+          <span class="stat-label">Mission</span>
+        </div>
+      </div>
+
+      <div class="scroll-hint">
+        <span>Explore</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 3v10M3 9l5 5 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
     </div>
 
-    <h1 class="wordmark">LIGHTSPEED<br>STUDIOS</h1>
+    <!-- ── ABOUT ── -->
+    <section>
+      <div class="section-label">Who we are</div>
+      <h2 class="section-title">Small team. Big ideas.</h2>
+      <p class="section-sub">We're a tight-knit group of three who share an obsession with building things. No corporate backing, no formal structure — just people who stay up too late making stuff they care about.</p>
 
-    <p class="tagline">
-      We build things at the <strong>speed of light.</strong><br>
-      Design, code, and everything in between.
-    </p>
-
-    <div class="divider"></div>
-
-    <div class="stats">
-      <div class="stat">
-        <span class="stat-num">2</span>
-        <span class="stat-label">Creators</span>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-card-icon">🛰️</div>
+          <h3>Independent by design</h3>
+          <p>We don't answer to investors or deadlines we didn't set ourselves. We ship when it's right, not when someone tells us to.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">⚡</div>
+          <h3>Built from scratch</h3>
+          <p>Everything we make starts as a blank file and an idea. We write the code, design the visuals, and figure out the rest along the way.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🌌</div>
+          <h3>Across disciplines</h3>
+          <p>Games, apps, tools, stories — we don't box ourselves in. If it's interesting to build, we'll build it.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🔭</div>
+          <h3>Always in orbit</h3>
+          <p>We're constantly working on something. Some of it ships, some of it becomes the foundation for the next thing. Nothing goes to waste.</p>
+        </div>
       </div>
-      <div class="stat">
-        <span class="stat-num">∞</span>
-        <span class="stat-label">Ideas</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">1</span>
-        <span class="stat-label">Mission</span>
-      </div>
-    </div>
+    </section>
 
-    <a class="cta">Launching Soon</a>
-  </main>
+    <!-- ── WHAT WE MAKE ── -->
+    <section>
+      <div class="section-label">What we make</div>
+      <h2 class="section-title">Our craft</h2>
+      <p class="section-sub">We move between mediums depending on where the idea lives best.</p>
+
+      <div class="craft-grid">
+        <div class="craft-card">
+          <div class="craft-icon purple">🎮</div>
+          <h3>Games</h3>
+          <p>Interactive worlds with real stakes. We care about how things feel, not just how they look.</p>
+        </div>
+        <div class="craft-card">
+          <div class="craft-icon cyan">💻</div>
+          <h3>Software</h3>
+          <p>Tools and apps built for actual use. Clean, functional, and made by people who use what they build.</p>
+        </div>
+        <div class="craft-card">
+          <div class="craft-icon pink">✦</div>
+          <h3>Experiences</h3>
+          <p>Projects that don't fit a category. The weird stuff. Usually the most fun to make.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CURRENTLY IN DEVELOPMENT ── -->
+    <section>
+      <div class="section-label">Currently in development</div>
+      <h2 class="section-title">What we're building now</h2>
+
+      <div class="dev-card">
+        <div class="dev-status">
+          <span class="dev-status-dot"></span>
+          Active development
+        </div>
+        <div class="dev-title">Finding Billy</div>
+        <p class="dev-desc">
+          Our current project. Details are under wraps for now, but it's the kind of thing we've wanted to make for a long time. Stay tuned.
+        </p>
+        <div class="dev-tags">
+          <span class="dev-tag">In Progress</span>
+          <span class="dev-tag">Lightspeed Studios</span>
+          <span class="dev-tag">2026</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+      <div class="footer-inner">
+        <span class="footer-brand">LIGHTSPEED STUDIOS</span>
+        <span class="footer-copy">© 2026 — Made with intent</span>
+      </div>
+    </footer>
+
+  </div>
 
   <script>
     // ── Starfield ──────────────────────────────────────────
@@ -237,7 +545,7 @@
     const ctx    = canvas.getContext('2d');
     let W, H, stars = [];
 
-    const STAR_COUNT = 280;
+    const STAR_COUNT = 300;
     const COLORS = ['#ffffff', '#c4b5fd', '#67e8f9', '#f9a8d4', '#a5f3fc'];
 
     function resize() {
@@ -251,9 +559,9 @@
         y:       Math.random() * H,
         r:       Math.random() * 1.4 + 0.2,
         color:   COLORS[Math.floor(Math.random() * COLORS.length)],
-        speed:   Math.random() * 0.4 + 0.05,
+        speed:   Math.random() * 0.35 + 0.05,
         phase:   Math.random() * Math.PI * 2,
-        twinkle: Math.random() * 0.03 + 0.008,
+        twinkle: Math.random() * 0.028 + 0.007,
       }));
     }
 
@@ -262,14 +570,13 @@
       ctx.clearRect(0, 0, W, H);
       t += 1;
       for (const s of stars) {
-        const alpha = 0.4 + 0.6 * Math.abs(Math.sin(s.phase + t * s.twinkle));
+        const alpha = 0.35 + 0.65 * Math.abs(Math.sin(s.phase + t * s.twinkle));
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fillStyle = s.color;
         ctx.globalAlpha = alpha;
         ctx.fill();
-        // slow drift downward
-        s.y += s.speed * 0.15;
+        s.y += s.speed * 0.12;
         if (s.y > H + 2) { s.y = -2; s.x = Math.random() * W; }
       }
       ctx.globalAlpha = 1;
@@ -282,36 +589,34 @@
     // ── Shooting stars ─────────────────────────────────────
     function shootStar() {
       const el = document.createElement('div');
-      el.className = 'shoot';
+      el.style.cssText = `
+        position: fixed; z-index: 5; pointer-events: none;
+        left: ${Math.random() * W * 0.7}px;
+        top:  ${Math.random() * H * 0.45}px;
+      `;
       document.body.appendChild(el);
 
-      const startX = Math.random() * W * 0.7;
-      const startY = Math.random() * H * 0.4;
-      const len    = 120 + Math.random() * 180;
-      const angle  = 30 + Math.random() * 20; // degrees
-      const rad    = (angle * Math.PI) / 180;
+      const len   = 130 + Math.random() * 170;
+      const angle = 28 + Math.random() * 22;
 
-      el.style.cssText = `
-        left: ${startX}px; top: ${startY}px;
+      el.style.cssText += `
         width: ${len}px; height: 1.5px;
         background: linear-gradient(90deg, rgba(255,255,255,0.9), transparent);
         transform: rotate(${angle}deg);
         transform-origin: left center;
         border-radius: 2px;
-        opacity: 0;
       `;
 
-      const kf = [
-        { opacity: 0, transform: `rotate(${angle}deg) translateX(0)` },
+      const anim = el.animate([
+        { opacity: 0,   transform: `rotate(${angle}deg) translateX(0)` },
         { opacity: 0.9, transform: `rotate(${angle}deg) translateX(${len * 0.3}px)`, offset: 0.15 },
-        { opacity: 0, transform: `rotate(${angle}deg) translateX(${len}px)` },
-      ];
-      const anim = el.animate(kf, { duration: 700 + Math.random() * 400, easing: 'ease-in' });
-      anim.onfinish = () => el.remove();
+        { opacity: 0,   transform: `rotate(${angle}deg) translateX(${len}px)` },
+      ], { duration: 700 + Math.random() * 400, easing: 'ease-in' });
 
-      setTimeout(shootStar, 2500 + Math.random() * 4000);
+      anim.onfinish = () => el.remove();
+      setTimeout(shootStar, 2500 + Math.random() * 4500);
     }
-    setTimeout(shootStar, 1500);
+    setTimeout(shootStar, 1800);
   </script>
 </body>
 </html>
