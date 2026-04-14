@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lightspeed Studios</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -13,370 +13,465 @@
       --purple:  #7c3aed;
       --magenta: #d946ef;
       --cyan:    #22d3ee;
-      --blue:    #3b82f6;
-      --bg:      #030712;
+      --bg:      #050a18;
+      --dark:    #080f22;
+      --card-bg: #0d1530;
     }
 
     html { scroll-behavior: smooth; }
-
     body {
-      width: 100%;
-      overflow-x: hidden;
       background: var(--bg);
       color: #fff;
       font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
     }
 
-    /* ── Starfield ── */
-    #stars {
+    /* ══════════════════════════════
+       NAV
+    ══════════════════════════════ */
+    nav {
       position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 3rem;
+      background: rgba(5, 10, 24, 0.75);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-brand {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      .nav-links a { font-size: 0.7rem; }
     }
 
-    /* ── Nebula blobs ── */
-    .nebula {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(130px);
-      opacity: 0.16;
-      pointer-events: none;
-      z-index: 1;
-      animation: drift 22s ease-in-out infinite alternate;
-    }
-    .nebula-1 { width: 650px; height: 650px; background: var(--purple); top: -180px; left: -180px; animation-delay: 0s; }
-    .nebula-2 { width: 520px; height: 520px; background: var(--magenta); bottom: -120px; right: -120px; animation-delay: -7s; }
-    .nebula-3 { width: 420px; height: 420px; background: var(--cyan); top: 35%; left: 52%; animation-delay: -14s; }
-
-    @keyframes drift {
-      from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(45px, 35px) scale(1.1); }
-    }
-
-    /* ── Page wrapper ── */
-    .page {
-      position: relative;
-      z-index: 10;
-    }
-
-    /* ════════════════════════════════
+    /* ══════════════════════════════
        HERO
-    ════════════════════════════════ */
+    ══════════════════════════════ */
     .hero {
+      position: relative;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 5rem 2rem 4rem;
-      gap: 1.8rem;
+      padding: 8rem 2rem 5rem;
+      overflow: hidden;
     }
-
-    .badge {
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=1800&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.35) saturate(1.2);
+      z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center bottom, rgba(124,58,237,0.35) 0%, transparent 65%),
+                  linear-gradient(to top, rgba(5,10,24,0.9) 0%, rgba(5,10,24,0.1) 60%);
+      z-index: 1;
+    }
+    canvas#stars {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.6rem;
+    }
+    .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
       backdrop-filter: blur(8px);
       padding: 6px 18px;
       border-radius: 999px;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--cyan);
     }
     .badge-dot {
-      width: 7px; height: 7px;
+      width: 6px; height: 6px;
       background: var(--cyan);
       border-radius: 50%;
       animation: pulse 2s ease-in-out infinite;
     }
     @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.35; transform: scale(0.65); }
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.3; transform:scale(0.6); }
     }
-
-    .wordmark {
+    .hero h1 {
       font-family: 'Orbitron', sans-serif;
       font-weight: 900;
-      font-size: clamp(2.6rem, 9vw, 7rem);
-      line-height: 1;
+      font-size: clamp(2.4rem, 8vw, 6rem);
+      line-height: 1.05;
       letter-spacing: 0.04em;
-      background: linear-gradient(135deg, #fff 0%, var(--cyan) 38%, var(--magenta) 72%, var(--purple) 100%);
+      background: linear-gradient(135deg, #fff 0%, var(--cyan) 40%, var(--magenta) 80%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: glow 6s ease-in-out infinite alternate;
     }
     @keyframes glow {
-      from { filter: drop-shadow(0 0 35px rgba(217,70,239,0.3)); }
-      to   { filter: drop-shadow(0 0 65px rgba(34,211,238,0.45)); }
+      from { filter: drop-shadow(0 0 30px rgba(217,70,239,0.3)); }
+      to   { filter: drop-shadow(0 0 55px rgba(34,211,238,0.4)); }
     }
-
-    .tagline {
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
+    .hero-sub {
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
       font-weight: 300;
-      color: rgba(255,255,255,0.52);
-      letter-spacing: 0.06em;
-      max-width: 520px;
-      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+      max-width: 500px;
+      line-height: 1.75;
+      letter-spacing: 0.04em;
     }
-    .tagline strong {
-      color: rgba(255,255,255,0.88);
-      font-weight: 500;
-    }
-
-    .divider {
-      width: 80px; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--magenta), transparent);
-    }
-
-    .stats {
-      display: flex;
-      gap: 3.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .stat {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-    }
-    .stat-num {
+    .hero-sub strong { color: rgba(255,255,255,0.9); font-weight: 500; }
+    .hero-btn {
+      display: inline-block;
+      padding: 13px 38px;
+      border-radius: 999px;
       font-family: 'Orbitron', sans-serif;
-      font-size: 1.75rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      background: linear-gradient(135deg, var(--cyan), var(--magenta));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .stat-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.32);
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, var(--purple), var(--magenta));
+      box-shadow: 0 0 28px rgba(217,70,239,0.35);
+      transition: box-shadow 0.3s, transform 0.2s;
     }
-
-    .scroll-hint {
+    .hero-btn:hover {
+      box-shadow: 0 0 48px rgba(217,70,239,0.6);
+      transform: translateY(-2px);
+    }
+    .scroll-arrow {
+      margin-top: 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
       color: rgba(255,255,255,0.2);
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       animation: bob 2.5s ease-in-out infinite;
     }
-    .scroll-hint svg { opacity: 0.4; }
     @keyframes bob {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(6px); }
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(7px); }
     }
 
-    /* ════════════════════════════════
-       SECTION SHELL
-    ════════════════════════════════ */
-    section {
-      padding: 6rem 2rem;
+    /* ══════════════════════════════
+       SHARED SECTION STYLES
+    ══════════════════════════════ */
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .section-body {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.48);
+      line-height: 1.85;
+      max-width: 520px;
+    }
+
+    /* ══════════════════════════════
+       GET TO KNOW US
+    ══════════════════════════════ */
+    .know-us {
+      padding: 7rem 2rem;
       max-width: 1100px;
       margin: 0 auto;
     }
-
-    .section-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--magenta);
-      margin-bottom: 0.75rem;
-      font-weight: 600;
+    .know-us-header {
+      text-align: center;
+      margin-bottom: 5rem;
     }
-
-    .section-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: #fff;
+    .know-us-header .section-body {
+      margin: 0 auto;
+      max-width: 480px;
     }
-
-    .section-sub {
-      font-size: 1rem;
-      color: rgba(255,255,255,0.45);
-      max-width: 540px;
-      line-height: 1.8;
-      margin-bottom: 3rem;
-    }
-
-    /* ════════════════════════════════
-       ABOUT
-    ════════════════════════════════ */
-    .about-grid {
+    .know-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-bottom: 5rem;
+    }
+    .know-row:last-child { margin-bottom: 0; }
+    .know-row.flip .know-text { order: 2; }
+    .know-row.flip .know-img  { order: 1; }
+    @media (max-width: 700px) {
+      .know-row { grid-template-columns: 1fr; gap: 2rem; }
+      .know-row.flip .know-text,
+      .know-row.flip .know-img  { order: unset; }
+    }
+    .know-img {
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    .know-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+      filter: brightness(0.85) saturate(1.15);
+    }
+    .know-img:hover img { transform: scale(1.04); }
+    .know-text { display: flex; flex-direction: column; gap: 1rem; }
+    .know-text .section-title { margin-bottom: 0; }
+
+    /* ══════════════════════════════
+       WHAT MAKES US DIFFERENT
+    ══════════════════════════════ */
+    .different {
+      background: var(--dark);
+      padding: 7rem 2rem;
+    }
+    .different-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .different-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
     }
-    @media (max-width: 680px) { .about-grid { grid-template-columns: 1fr; } }
-
-    .about-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
+    @media (max-width: 760px) { .diff-grid { grid-template-columns: 1fr; } }
+    .diff-card {
       border-radius: 16px;
-      padding: 2rem;
-      transition: border-color 0.3s, background 0.3s;
+      overflow: hidden;
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.3s, border-color 0.3s;
     }
-    .about-card:hover {
-      border-color: rgba(217,70,239,0.3);
-      background: rgba(217,70,239,0.04);
+    .diff-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(217,70,239,0.25);
     }
-    .about-card-icon {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
+    .diff-card-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.75) saturate(1.2);
     }
-    .about-card h3 {
+    .diff-card-body { padding: 1.6rem; }
+    .diff-card-body h3 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 700;
       letter-spacing: 0.06em;
       margin-bottom: 0.6rem;
-      color: rgba(255,255,255,0.9);
     }
-    .about-card p {
-      font-size: 0.9rem;
+    .diff-card-body p {
+      font-size: 0.85rem;
       color: rgba(255,255,255,0.42);
       line-height: 1.75;
     }
 
-    /* ════════════════════════════════
-       WHAT WE MAKE
-    ════════════════════════════════ */
-    .craft-grid {
+    /* ══════════════════════════════
+       FINDING BILLY
+    ══════════════════════════════ */
+    .finding-billy {
+      padding: 7rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .billy-card {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-    }
-    @media (max-width: 760px) { .craft-grid { grid-template-columns: 1fr; } }
-
-    .craft-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 16px;
-      padding: 2rem 1.75rem;
-      transition: border-color 0.3s, transform 0.25s;
-    }
-    .craft-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(34,211,238,0.25);
-    }
-    .craft-icon {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      margin-bottom: 1.1rem;
-    }
-    .craft-icon.purple { background: rgba(124,58,237,0.2); }
-    .craft-icon.cyan   { background: rgba(34,211,238,0.15); }
-    .craft-icon.pink   { background: rgba(217,70,239,0.18); }
-
-    .craft-card h3 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.6rem;
-      color: rgba(255,255,255,0.9);
-    }
-    .craft-card p {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.4);
-      line-height: 1.75;
-    }
-
-    /* ════════════════════════════════
-       CURRENTLY IN DEVELOPMENT
-    ════════════════════════════════ */
-    .dev-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(217,70,239,0.2);
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
       border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(217,70,239,0.2);
+    }
+    @media (max-width: 700px) { .billy-card { grid-template-columns: 1fr; } }
+    .billy-img {
+      position: relative;
+      min-height: 380px;
+    }
+    .billy-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.6) saturate(1.3);
+    }
+    .billy-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(217,70,239,0.15));
+    }
+    .billy-body {
+      background: var(--card-bg);
       padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.2rem;
       position: relative;
       overflow: hidden;
     }
-    .dev-card::before {
+    .billy-body::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at top left, rgba(124,58,237,0.12) 0%, transparent 65%),
-                  radial-gradient(ellipse at bottom right, rgba(217,70,239,0.08) 0%, transparent 60%);
+      background: radial-gradient(ellipse at bottom right, rgba(217,70,239,0.08), transparent 65%);
       pointer-events: none;
     }
-    .dev-status {
+    .billy-status {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       background: rgba(217,70,239,0.1);
       border: 1px solid rgba(217,70,239,0.3);
       border-radius: 999px;
-      padding: 5px 14px;
-      font-size: 0.68rem;
+      padding: 4px 13px;
+      font-size: 0.65rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--magenta);
-      margin-bottom: 1.75rem;
+      width: fit-content;
     }
-    .dev-status-dot {
-      width: 6px; height: 6px;
+    .billy-status-dot {
+      width: 5px; height: 5px;
       background: var(--magenta);
       border-radius: 50%;
       animation: pulse 1.6s ease-in-out infinite;
     }
-    .dev-title {
+    .billy-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
       font-weight: 900;
-      letter-spacing: 0.04em;
-      background: linear-gradient(135deg, #fff 0%, var(--cyan) 50%, var(--magenta) 100%);
+      background: linear-gradient(135deg, #fff, var(--cyan) 50%, var(--magenta));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 1rem;
+      line-height: 1.1;
     }
-    .dev-desc {
-      font-size: 1rem;
+    .billy-desc {
+      font-size: 0.92rem;
       color: rgba(255,255,255,0.5);
-      line-height: 1.8;
-      max-width: 600px;
-      margin-bottom: 2rem;
+      line-height: 1.85;
     }
-    .dev-tags {
+    .billy-tags {
       display: flex;
-      gap: 0.6rem;
+      gap: 0.5rem;
       flex-wrap: wrap;
     }
-    .dev-tag {
-      padding: 5px 14px;
+    .billy-tag {
+      padding: 4px 12px;
       border-radius: 999px;
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       letter-spacing: 0.1em;
       border: 1px solid rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.4);
       text-transform: uppercase;
     }
 
-    /* ════════════════════════════════
-       FOOTER
-    ════════════════════════════════ */
-    footer {
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 2.5rem 2rem;
+    /* ══════════════════════════════
+       ABOUT US
+    ══════════════════════════════ */
+    .about-us {
+      position: relative;
+      padding: 8rem 2rem;
       text-align: center;
+      overflow: hidden;
+    }
+    .about-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1800&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.22) saturate(1.1);
+      z-index: 0;
+    }
+    .about-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(124,58,237,0.2) 0%, transparent 70%);
+      z-index: 1;
+    }
+    .about-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .about-content .section-title { font-size: clamp(1.8rem, 4vw, 3rem); }
+    .about-content .section-body {
+      max-width: 600px;
+      font-size: 1.05rem;
+      line-height: 1.9;
+    }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2.5rem 3rem;
     }
     .footer-inner {
       max-width: 1100px;
@@ -389,7 +484,7 @@
     }
     .footer-brand {
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       background: linear-gradient(135deg, var(--cyan), var(--magenta));
@@ -398,7 +493,7 @@
       background-clip: text;
     }
     .footer-copy {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: rgba(255,255,255,0.2);
       letter-spacing: 0.08em;
     }
@@ -406,219 +501,222 @@
 </head>
 <body>
 
-  <canvas id="stars"></canvas>
-  <div class="nebula nebula-1"></div>
-  <div class="nebula nebula-2"></div>
-  <div class="nebula nebula-3"></div>
+  <!-- ── NAV ── -->
+  <nav>
+    <a class="nav-brand" href="#">LIGHTSPEED STUDIOS</a>
+    <ul class="nav-links">
+      <li><a href="#know-us">About</a></li>
+      <li><a href="#finding-billy">Finding Billy</a></li>
+      <li><a href="#about-us">Contact</a></li>
+    </ul>
+  </nav>
 
-  <div class="page">
-
-    <!-- ── HERO ── -->
-    <div class="hero">
-      <div class="badge">
+  <!-- ── HERO ── -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <canvas id="stars"></canvas>
+    <div class="hero-content">
+      <div class="hero-badge">
         <span class="badge-dot"></span>
         Three creators · One universe
       </div>
-
-      <h1 class="wordmark">LIGHTSPEED<br>STUDIOS</h1>
-
-      <p class="tagline">
-        We build things at the <strong>speed of light.</strong><br>
-        Games, experiences, and ideas that didn't exist before.
+      <h1>LIGHTSPEED<br>STUDIOS</h1>
+      <p class="hero-sub">
+        Take a look around and find out who we are,<br>
+        what we build, and why we can't stop.
       </p>
-
-      <div class="divider"></div>
-
-      <div class="stats">
-        <div class="stat">
-          <span class="stat-num">3</span>
-          <span class="stat-label">Creators</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num">∞</span>
-          <span class="stat-label">Ideas</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num">1</span>
-          <span class="stat-label">Mission</span>
-        </div>
-      </div>
-
-      <div class="scroll-hint">
-        <span>Explore</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 3v10M3 9l5 5 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <a class="hero-btn" href="#know-us">Explore</a>
+      <div class="scroll-arrow">
+        <span>Scroll</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 2v10M2 8l5 5 5-5" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
     </div>
+  </section>
 
-    <!-- ── ABOUT ── -->
-    <section>
-      <div class="section-label">Who we are</div>
-      <h2 class="section-title">Small team. Big ideas.</h2>
-      <p class="section-sub">We're a tight-knit group of three who share an obsession with building things. No corporate backing, no formal structure — just people who stay up too late making stuff they care about.</p>
+  <!-- ── GET TO KNOW US ── -->
+  <div class="know-us" id="know-us">
+    <div class="know-us-header">
+      <div class="section-label">Get to know us</div>
+      <h2 class="section-title">Who we are</h2>
+      <p class="section-body">We're a tight-knit group of three who make things together. No investors, no deadlines we didn't set — just people who stay up too late building stuff they care about.</p>
+    </div>
 
-      <div class="about-grid">
-        <div class="about-card">
-          <div class="about-card-icon">🛰️</div>
-          <h3>Independent by design</h3>
-          <p>We don't answer to investors or deadlines we didn't set ourselves. We ship when it's right, not when someone tells us to.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-icon">⚡</div>
-          <h3>Built from scratch</h3>
-          <p>Everything we make starts as a blank file and an idea. We write the code, design the visuals, and figure out the rest along the way.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-icon">🌌</div>
-          <h3>Across disciplines</h3>
-          <p>Games, apps, tools, stories — we don't box ourselves in. If it's interesting to build, we'll build it.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-icon">🔭</div>
-          <h3>Always in orbit</h3>
-          <p>We're constantly working on something. Some of it ships, some of it becomes the foundation for the next thing. Nothing goes to waste.</p>
-        </div>
+    <div class="know-row">
+      <div class="know-img">
+        <img src="https://images.unsplash.com/photo-1464802686167-b939a6910659?w=900&q=80" alt="Our Mission">
       </div>
-    </section>
-
-    <!-- ── WHAT WE MAKE ── -->
-    <section>
-      <div class="section-label">What we make</div>
-      <h2 class="section-title">Our craft</h2>
-      <p class="section-sub">We move between mediums depending on where the idea lives best.</p>
-
-      <div class="craft-grid">
-        <div class="craft-card">
-          <div class="craft-icon purple">🎮</div>
-          <h3>Games</h3>
-          <p>Interactive worlds with real stakes. We care about how things feel, not just how they look.</p>
-        </div>
-        <div class="craft-card">
-          <div class="craft-icon cyan">💻</div>
-          <h3>Software</h3>
-          <p>Tools and apps built for actual use. Clean, functional, and made by people who use what they build.</p>
-        </div>
-        <div class="craft-card">
-          <div class="craft-icon pink">✦</div>
-          <h3>Experiences</h3>
-          <p>Projects that don't fit a category. The weird stuff. Usually the most fun to make.</p>
-        </div>
+      <div class="know-text">
+        <div class="section-label">Our Mission</div>
+        <h3 class="section-title">Build things that didn't exist before.</h3>
+        <p class="section-body">It's easy to make something when you're genuinely obsessed with it. That's the only filter we apply — if we're excited to build it, we build it.</p>
       </div>
-    </section>
+    </div>
 
-    <!-- ── CURRENTLY IN DEVELOPMENT ── -->
-    <section>
-      <div class="section-label">Currently in development</div>
-      <h2 class="section-title">What we're building now</h2>
-
-      <div class="dev-card">
-        <div class="dev-status">
-          <span class="dev-status-dot"></span>
-          Active development
-        </div>
-        <div class="dev-title">Finding Billy</div>
-        <p class="dev-desc">
-          A man makes one very bad decision and spends the rest of the story running from it — across cities, oceans, and places that probably shouldn't exist. The further he runs, the more unhinged everything gets. Expect a chase, expect chaos, expect things to escalate well past the point of no return.
-        </p>
-        <div class="dev-tags">
-          <span class="dev-tag">Crime</span>
-          <span class="dev-tag">Comedy</span>
-          <span class="dev-tag">Chaos</span>
-          <span class="dev-tag">In Progress</span>
-          <span class="dev-tag">2026</span>
-        </div>
+    <div class="know-row flip">
+      <div class="know-img">
+        <img src="https://images.unsplash.com/photo-1543722530-d2c3201371e7?w=900&q=80" alt="Our Motivation">
       </div>
-    </section>
-
-    <!-- ── FOOTER ── -->
-    <footer>
-      <div class="footer-inner">
-        <span class="footer-brand">LIGHTSPEED STUDIOS</span>
-        <span class="footer-copy">© 2026 — Made with intent</span>
+      <div class="know-text">
+        <div class="section-label">Our Motivation</div>
+        <h3 class="section-title">The next idea is always the best one.</h3>
+        <p class="section-body">We don't run out of things to make. Every project opens three more doors. That's what keeps us going — not deadlines, not money, just the next interesting problem.</p>
       </div>
-    </footer>
+    </div>
 
+    <div class="know-row">
+      <div class="know-img">
+        <img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=900&q=80" alt="Our Projects">
+      </div>
+      <div class="know-text">
+        <div class="section-label">Our Projects</div>
+        <h3 class="section-title">Across mediums, across genres.</h3>
+        <p class="section-body">Games, software, stories, tools — we move between them depending on where the idea fits best. If it's interesting to build, that's enough of a reason.</p>
+      </div>
+    </div>
   </div>
 
+  <!-- ── WHAT MAKES US DIFFERENT ── -->
+  <div class="different">
+    <div class="different-inner">
+      <div class="different-header">
+        <div class="section-label">What makes us different</div>
+        <h2 class="section-title">Small, but we mean it.</h2>
+      </div>
+      <div class="diff-grid">
+        <div class="diff-card">
+          <img class="diff-card-img" src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=800&q=80" alt="Our Story">
+          <div class="diff-card-body">
+            <h3>Our Story</h3>
+            <p>Like all great things, we started small — a few people with a shared obsession and nowhere better to be. Lightspeed Studios grew from late nights and too many ideas.</p>
+          </div>
+        </div>
+        <div class="diff-card">
+          <img class="diff-card-img" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80" alt="Our Team">
+          <div class="diff-card-body">
+            <h3>Our Team</h3>
+            <p>Three people. Each brings something different. Together we cover more ground than most teams twice our size, without the meetings.</p>
+          </div>
+        </div>
+        <div class="diff-card">
+          <img class="diff-card-img" src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80" alt="Our Values">
+          <div class="diff-card-body">
+            <h3>Our Values</h3>
+            <p>Make things you're proud of. Ship when it's ready. Don't compromise the idea for a shortcut. That's basically the whole rulebook.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FINDING BILLY ── -->
+  <div class="finding-billy" id="finding-billy">
+    <div class="section-label" style="margin-bottom:0.5rem">Currently in development</div>
+    <h2 class="section-title" style="margin-bottom:2.5rem">What we're building now</h2>
+    <div class="billy-card">
+      <div class="billy-img">
+        <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=900&q=80" alt="Finding Billy">
+        <div class="billy-img-overlay"></div>
+      </div>
+      <div class="billy-body">
+        <div class="billy-status">
+          <span class="billy-status-dot"></span>
+          Active development
+        </div>
+        <div class="billy-title">Finding Billy</div>
+        <p class="billy-desc">A man makes one very bad decision and spends the rest of the story running from it — across cities, oceans, and places that probably shouldn't exist. The further he runs, the more unhinged everything gets. Expect a chase, expect chaos, expect things to escalate well past the point of no return.</p>
+        <div class="billy-tags">
+          <span class="billy-tag">Crime</span>
+          <span class="billy-tag">Comedy</span>
+          <span class="billy-tag">Chaos</span>
+          <span class="billy-tag">2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ABOUT US ── -->
+  <div class="about-us" id="about-us">
+    <div class="about-bg"></div>
+    <div class="about-overlay"></div>
+    <div class="about-content">
+      <div class="section-label">About us</div>
+      <h2 class="section-title">Behind Lightspeed Studios</h2>
+      <p class="section-body">We're three people who make things because we can't really imagine doing anything else. No big backstory, no corporate origin — just a shared drive to build worlds, tell stories, and ship projects that we'd actually want to experience ourselves. Everything we make starts as a blank file and a stupid idea. Most of those ideas turn into something real.</p>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-brand">LIGHTSPEED STUDIOS</span>
+      <span class="footer-copy">© 2026 — Made with intent</span>
+    </div>
+  </footer>
+
   <script>
-    // ── Starfield ──────────────────────────────────────────
+    // Starfield — hero only
     const canvas = document.getElementById('stars');
     const ctx    = canvas.getContext('2d');
     let W, H, stars = [];
-
-    const STAR_COUNT = 300;
-    const COLORS = ['#ffffff', '#c4b5fd', '#67e8f9', '#f9a8d4', '#a5f3fc'];
+    const COLORS = ['#ffffff', '#c4b5fd', '#67e8f9', '#f9a8d4'];
 
     function resize() {
-      W = canvas.width  = window.innerWidth;
-      H = canvas.height = window.innerHeight;
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
     }
-
     function initStars() {
-      stars = Array.from({ length: STAR_COUNT }, () => ({
-        x:       Math.random() * W,
-        y:       Math.random() * H,
-        r:       Math.random() * 1.4 + 0.2,
-        color:   COLORS[Math.floor(Math.random() * COLORS.length)],
-        speed:   Math.random() * 0.35 + 0.05,
-        phase:   Math.random() * Math.PI * 2,
-        twinkle: Math.random() * 0.028 + 0.007,
+      stars = Array.from({ length: 220 }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        r: Math.random() * 1.3 + 0.2,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        phase: Math.random() * Math.PI * 2,
+        twinkle: Math.random() * 0.025 + 0.006,
       }));
     }
-
     let t = 0;
     function draw() {
       ctx.clearRect(0, 0, W, H);
-      t += 1;
+      t++;
       for (const s of stars) {
-        const alpha = 0.35 + 0.65 * Math.abs(Math.sin(s.phase + t * s.twinkle));
+        const a = 0.3 + 0.7 * Math.abs(Math.sin(s.phase + t * s.twinkle));
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fillStyle = s.color;
-        ctx.globalAlpha = alpha;
+        ctx.globalAlpha = a;
         ctx.fill();
-        s.y += s.speed * 0.12;
-        if (s.y > H + 2) { s.y = -2; s.x = Math.random() * W; }
       }
       ctx.globalAlpha = 1;
       requestAnimationFrame(draw);
     }
-
     window.addEventListener('resize', () => { resize(); initStars(); });
     resize(); initStars(); draw();
 
-    // ── Shooting stars ─────────────────────────────────────
+    // Shooting stars
     function shootStar() {
       const el = document.createElement('div');
+      const len = 120 + Math.random() * 160;
+      const angle = 28 + Math.random() * 20;
       el.style.cssText = `
-        position: fixed; z-index: 5; pointer-events: none;
-        left: ${Math.random() * W * 0.7}px;
-        top:  ${Math.random() * H * 0.45}px;
+        position:fixed; z-index:3; pointer-events:none;
+        left:${Math.random() * window.innerWidth * 0.7}px;
+        top:${Math.random() * window.innerHeight * 0.5}px;
+        width:${len}px; height:1.5px;
+        background:linear-gradient(90deg,rgba(255,255,255,0.9),transparent);
+        transform:rotate(${angle}deg); transform-origin:left center; border-radius:2px;
       `;
       document.body.appendChild(el);
-
-      const len   = 130 + Math.random() * 170;
-      const angle = 28 + Math.random() * 22;
-
-      el.style.cssText += `
-        width: ${len}px; height: 1.5px;
-        background: linear-gradient(90deg, rgba(255,255,255,0.9), transparent);
-        transform: rotate(${angle}deg);
-        transform-origin: left center;
-        border-radius: 2px;
-      `;
-
       const anim = el.animate([
-        { opacity: 0,   transform: `rotate(${angle}deg) translateX(0)` },
-        { opacity: 0.9, transform: `rotate(${angle}deg) translateX(${len * 0.3}px)`, offset: 0.15 },
-        { opacity: 0,   transform: `rotate(${angle}deg) translateX(${len}px)` },
-      ], { duration: 700 + Math.random() * 400, easing: 'ease-in' });
-
+        { opacity:0, transform:`rotate(${angle}deg) translateX(0)` },
+        { opacity:0.85, transform:`rotate(${angle}deg) translateX(${len*0.3}px)`, offset:0.15 },
+        { opacity:0, transform:`rotate(${angle}deg) translateX(${len}px)` },
+      ], { duration: 650 + Math.random()*400, easing:'ease-in' });
       anim.onfinish = () => el.remove();
-      setTimeout(shootStar, 2500 + Math.random() * 4500);
+      setTimeout(shootStar, 2800 + Math.random() * 4500);
     }
-    setTimeout(shootStar, 1800);
+    setTimeout(shootStar, 1500);
   </script>
 </body>
 </html>
