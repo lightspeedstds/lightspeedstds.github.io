@@ -47,8 +47,10 @@ function handleSignup(name, email) {
     }
   }
 
-  // Generate 6-character alphanumeric code (uppercase)
-  const code      = Math.random().toString(36).toUpperCase().substring(2, 8);
+  // Generate 6-character alphanumeric code (no ambiguous chars like 0/O, 1/I)
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = '';
+  for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
   const timestamp = new Date().toISOString();
 
   sheet.appendRow([name, email, code, timestamp, 'FALSE']);
@@ -100,6 +102,7 @@ function handleVerify(email, code) {
 
     if (rowEmail === email.toLowerCase() && rowCode === code.toUpperCase()) {
       sheet.getRange(i + 1, 5).setValue('TRUE'); // mark Verified
+      sheet.getRange(i + 1, 3).setValue('');     // wipe code — truly one-time
       return { valid: true, name: rows[i][0] };
     }
   }
